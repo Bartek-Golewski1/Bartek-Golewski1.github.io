@@ -1,0 +1,123 @@
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #222222;
+  --block-bg: #f4f4f4;
+  --accent-color: #ffcc00;
+}
+
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+
+.page-header {
+  background: url('miasto.jpeg') center/cover;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.page-header h1 {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  background-color: var(--accent-color);
+  color: #000;
+  padding: 15px 30px;
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  order: 1;
+}
+
+.image-gallery {
+  order: 2;
+  display: flex;
+  gap: 20px;
+}
+
+.image-gallery img {
+  width: calc(33.333% - 13.33px);
+  height: 300px;
+  object-fit: cover;
+  filter: grayscale(100%);
+  border: 5px solid var(--block-bg);
+  transition: filter 0.3s;
+}
+
+.image-gallery img:hover {
+  filter: grayscale(0%);
+}
+
+
+.intro-block, .list-block {
+  background-color: var(--block-bg);
+  padding: 40px;
+  border-left: 12px solid var(--accent-color);
+}
+
+h2 {
+  text-transform: uppercase;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 10px;
+  margin-top: 0;
+}
+
+
+ul.urban-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.urban-list li {
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+ul.urban-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 16px;
+  height: 16px;
+  background-color: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+  .container { padding: 15px; }
+  .page-header { height: 200px; margin-bottom: 30px; }
+  .page-header h1 { font-size: 1.5rem; padding: 10px 15px; text-align: center; }
+  .intro-block, .list-block { padding: 25px 15px; border-left-width: 8px; }
+  .image-gallery { flex-direction: column; }
+  .image-gallery img { width: 100%; height: auto; border-width: 3px; }
+}
