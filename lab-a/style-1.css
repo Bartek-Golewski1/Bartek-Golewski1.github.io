@@ -32,7 +32,7 @@ body {
 }
 
 .page-header h1 {
-  font-size: 3.5rem;
+  font-size: 56px;
   text-transform: uppercase;
   background-color: var(--accent-color);
   color: #000;
@@ -99,8 +99,7 @@ ul.urban-list li {
   position: relative;
   padding-left: 35px;
   margin-bottom: 20px;
-  font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 17.6px;
 }
 
 ul.urban-list li::before {
@@ -116,7 +115,7 @@ ul.urban-list li::before {
 @media (max-width: 768px) {
   .container { padding: 15px; }
   .page-header { height: 200px; margin-bottom: 30px; }
-  .page-header h1 { font-size: 1.5rem; padding: 10px 15px; text-align: center; }
+  .page-header h1 { font-size: 24px; padding: 10px 15px; text-align: center; }
   .intro-block, .list-block { padding: 25px 15px; border-left-width: 8px; }
   .image-gallery { flex-direction: column; }
   .image-gallery img { width: 100%; height: auto; border-width: 3px; }

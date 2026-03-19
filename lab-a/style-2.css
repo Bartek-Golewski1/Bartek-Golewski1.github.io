@@ -5,6 +5,7 @@
   --panel-bg: #162038;
   --text-primary: #a6b305;
   --text-muted: #b5a0a0;
+  --accent: #020101;
 }
 
 body {
@@ -33,14 +34,14 @@ body {
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   box-sizing: border-box;
 }
-
 .page-header h1 {
-  font-size: 4rem;
-  font-style: italic;
-  font-weight: normal;
-  color: var(--accent-gold);
+  font-size: 56px;
+  text-transform: uppercase;
+  background-color: var(--accent);
+  color: var(--text-primary);
+  padding: 15px 30px;
+  letter-spacing: 3px;
   margin: 0;
-  letter-spacing: 2px;
 }
 
 .content-wrapper {
@@ -86,8 +87,8 @@ body {
 }
 
 h2 {
-  color: var(--accent-gold);
-  font-size: 2.2rem;
+  color: var(--text-primary);
+  font-size: 35.2px;
   font-weight: normal;
   margin-top: 0;
   margin-bottom: 20px;
@@ -96,7 +97,7 @@ h2 {
 .intro-block p {
   font-family: 'Helvetica Neue', sans-serif;
   color: var(--text-muted);
-  font-size: 1.1rem;
+  font-size: 17.6px;
 }
 
 ul.urban-list {
@@ -113,7 +114,7 @@ ul.urban-list li {
   border: 1px solid rgba(212, 175, 55, 0.3);
   padding: 20px 30px;
   font-family: 'Helvetica Neue', sans-serif;
-  color: var(--accent-gold);
+  color: var(--text-muted);
   letter-spacing: 1px;
   transition: background-color 0.3s;
   cursor: default;
@@ -126,7 +127,7 @@ ul.urban-list li:hover {
 @media (max-width: 1024px) {
   .content-wrapper { flex-direction: column; padding: 30px; gap: 40px; }
   .page-header { padding: 40px 30px; text-align: center; }
-  .page-header h1 { font-size: 2.5rem; }
+  .page-header h1 { font-size: 40px; }
 
   .image-gallery {
     width: 100%;
@@ -140,8 +141,8 @@ ul.urban-list li:hover {
 }
 
 @media (max-width: 375px) {
-  .page-header h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.5rem; }
+  .page-header h1 { font-size: 28.8px; }
+  h2 { font-size: 24px; }
   .content-wrapper { padding: 15px; }
-  ul.urban-list li { padding: 15px; font-size: 0.9rem; }
+  ul.urban-list li { padding: 15px; font-size: 14.4px; }
 }
