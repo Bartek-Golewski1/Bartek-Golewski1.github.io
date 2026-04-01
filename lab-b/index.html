@@ -9,14 +9,47 @@
     <script src="scripts.js" defer></script>
 </head>
 <body>
-    <div class = container>
-        <div class="blue-rectangle">
-            <input type="checkbox"  id="tekst1">
-            <label for="tekst1"> <input type="text" id="input1" value="tekst"></label>
-            <span id = "data">data</span>
-            <button id = "delete">X</button>
+<body>
+
+<div class="app-container">
+    <div class="search-section">
+        <input type="text" class="search-input" placeholder="Szukaj...">
+    </div>
+
+    <div class="list-section">
+        <div class="list-item">
+            <div class="left-section">
+                <input type="checkbox" class="item-checkbox">
+                <input type="text" class="item-text" value="chocolate">
+            </div>
+            <span class="item-date">2000-01-01</span>
+            <button class="item-delete">X</button>
         </div>
 
+        <div class="list-item">
+            <div class="left-section">
+                <input type="checkbox" class="item-checkbox">
+                <input type="text" class="item-text" value="macaroon">
+            </div>
+            <span class="item-date"></span>
+            <button class="item-delete">X</button>
+        </div>
+
+        <div class="list-item">
+            <div class="left-section">
+                <input type="checkbox" class="item-checkbox">
+                <input type="text" class="item-text" value="candy canes">
+            </div>
+            <span class="item-date">2000-01-05</span>
+            <button class="item-delete">X</button>
+        </div>
     </div>
+
+    <div class="add-section">
+        <input type="text" class="add-text" placeholder="do zrobienia...">
+        <input type="date" class="add-date" value="2000-01-01">
+        <button class="add-button">Zapisz</button>
+    </div>
+</div>
 </body>
 </html>
