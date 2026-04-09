@@ -9,6 +9,12 @@
     <script src="scripts.js" defer></script>
 </head>
 <body>
+<div class="window-container">
+    <div id="window1" class="window"></div>
+    <canvas id="window2" class="window"></canvas>
+</div>
+<button id="button1" onclick=getLocation() class="btn">Moja lokalizacja</button>
+<button id="button2" onclick=drawGrid('window2') class="btn">Pobierz mapę</button>
 
 </body>
 </html>
