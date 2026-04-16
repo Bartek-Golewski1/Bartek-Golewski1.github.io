@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bartosz Golewski (57779) - PTW LAB C</title>
 
-    <link rel="stylesheet" href="styles.css" type="text/css">
+    <link rel="stylesheet"  href="styles.css" type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-image@0.4.0/leaflet-image.js"></script>
     <script src="scripts.js" defer></script>
 </head>
 <body>
@@ -13,8 +20,8 @@
     <div id="window1" class="window"></div>
     <canvas id="window2" class="window"></canvas>
 </div>
-<button id="button1" onclick=getLocation() class="btn">Moja lokalizacja</button>
-<button id="button2" onclick=drawGrid('window2') class="btn">Pobierz mapę</button>
-
+<button id="button1" onclick=map() class="btn">Moja lokalizacja</button>
+<button id="button2" onclick=puzzle() class="btn">Pobierz mapę</button>
+<div id="puzzle-container" style="display: flex; flex-wrap: wrap; justify-content: center; margin-top: 20px; height: 200px; position: relative;"></div>
 </body>
 </html>
