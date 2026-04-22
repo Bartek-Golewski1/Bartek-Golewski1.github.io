@@ -63,7 +63,11 @@ function puzzle() {
 
   drawGrid('window2');
 
-  const canvas = document.getElementById('window2');
+  let canvas = document.getElementById('window2');
+  const newCanvas = canvas.cloneNode(true);
+  canvas.parentNode.replaceChild(newCanvas, canvas);
+  canvas = newCanvas;
+
   const ctx = canvas.getContext('2d');
   const puzzleContainer = document.getElementById('puzzle-container');
   puzzleContainer.innerHTML = '';
