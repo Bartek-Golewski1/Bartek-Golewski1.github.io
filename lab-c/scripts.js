@@ -217,7 +217,6 @@ function puzzle() {
       if (checkPuzzleCompletion(puzzles, cols, rows, cellWidth, cellHeight)) {
         showNotification('Puzzle ułożone prawidłowo');
       }
-    }, { once: false });
     });
 
     // Funkcja do przemalowania canvasu
