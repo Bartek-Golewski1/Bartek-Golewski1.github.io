@@ -77,8 +77,18 @@ function puzzle() {
 
     const cols = 4;
     const rows = 4;
+    const cellWidth = canvas.width / cols;
+    const cellHeight = canvas.height / rows;
     const puzzleWidth = mapCanvas.width / cols;
     const puzzleHeight = mapCanvas.height / rows;
+
+    // Tablica do przechowywania puzzli i ich pozycji
+    const puzzles = [];
+    let draggingPuzzle = null;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // Stwórz puzzle i rozrzuć je w kontenerze
     for (let i = 0; i < cols; i++) {
       for (let j = 0; j < rows; j++) {
         const pieceCanvas = document.createElement('canvas');
@@ -103,7 +113,17 @@ function puzzle() {
         pieceImg.style.left = Math.random() * (puzzleContainer.offsetWidth - 100) + 'px';
         pieceImg.style.top = Math.random() * (puzzleContainer.offsetHeight - 100) + 'px';
 
-        // Event drag
+        // Przechowaj puzzle w tablicy
+        puzzles.push({
+          index: `${i}-${j}`,
+          img: pieceImg,
+          imgData: pieceCanvas.toDataURL(),
+          x: null,
+          y: null,
+          onCanvas: false
+        });
+
+        // Event drag z kontenera
         pieceImg.addEventListener('dragstart', (e) => {
           e.dataTransfer.setData('text/plain', e.target.dataset.index);
         });
@@ -112,42 +132,159 @@ function puzzle() {
       }
     }
 
+    // Obsługa drag and drop z kontenera na canvas
     canvas.addEventListener('dragover', (e) => e.preventDefault());
     canvas.addEventListener('drop', (e) => {
       e.preventDefault();
       const index = e.dataTransfer.getData('text/plain');
 
-      // Pobierz pozycję drop względem canvasu
       const rect = canvas.getBoundingClientRect();
       const dropX = e.clientX - rect.left;
       const dropY = e.clientY - rect.top;
 
-      const cols = 4;
-      const rows = 4;
-      const cellWidth = canvas.width / cols;
-      const cellHeight = canvas.height / rows;
-
-      // Oblicz, w którym kwadracie grida upuszczono puzzle (na podstawie pozycji myszy)
       const gridCol = Math.floor(dropX / cellWidth);
       const gridRow = Math.floor(dropY / cellHeight);
 
-      // Sprawdź, czy pozycja jest w granicach grida
       if (gridCol >= 0 && gridCol < cols && gridRow >= 0 && gridRow < rows) {
         const dx = gridCol * cellWidth;
         const dy = gridRow * cellHeight;
 
-        // Narysuj puzzle w wybranym miejscu
-        const puzzleImg = document.querySelector(`img[data-index="${index}"]`);
-        if (puzzleImg) {
-          const img = new Image();
-          img.onload = () => {
-            ctx.drawImage(img, dx, dy, cellWidth, cellHeight);
-            puzzleImg.remove();
-          };
-          img.src = puzzleImg.src;
+        const puzzleObj = puzzles.find(p => p.index === index);
+        if (puzzleObj) {
+          puzzleObj.x = dx;
+          puzzleObj.y = dy;
+          puzzleObj.onCanvas = true;
+          puzzleObj.img.remove();
+          redrawCanvas();
         }
       }
     });
-})
+
+    // Obsługa mouse events na canvasie (do drag and drop z grida)
+    canvas.addEventListener('mousedown', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      // Sprawdź czy klikniemy na puzzle na canvasie
+      for (let puzzle of puzzles) {
+        if (puzzle.onCanvas &&
+          mouseX >= puzzle.x && mouseX <= puzzle.x + cellWidth &&
+          mouseY >= puzzle.y && mouseY <= puzzle.y + cellHeight) {
+          draggingPuzzle = puzzle;
+          offsetX = mouseX - puzzle.x;
+          offsetY = mouseY - puzzle.y;
+          break;
+        }
+      }
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!draggingPuzzle) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+
+      draggingPuzzle.x = mouseX - offsetX;
+      draggingPuzzle.y = mouseY - offsetY;
+
+      redrawCanvas();
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+      if (!draggingPuzzle) return;
+
+      // Snapowanie do grida
+      const gridCol = Math.round(draggingPuzzle.x / cellWidth);
+      const gridRow = Math.round(draggingPuzzle.y / cellHeight);
+
+      if (gridCol >= 0 && gridCol < cols && gridRow >= 0 && gridRow < rows) {
+        draggingPuzzle.x = gridCol * cellWidth;
+        draggingPuzzle.y = gridRow * cellHeight;
+      } else {
+        // Jeśli upuszczono poza gridem - wróć do kontenera
+        draggingPuzzle.onCanvas = false;
+        draggingPuzzle.img.style.position = 'absolute';
+        draggingPuzzle.img.style.left = Math.random() * (puzzleContainer.offsetWidth - 100) + 'px';
+        draggingPuzzle.img.style.top = Math.random() * (puzzleContainer.offsetHeight - 100) + 'px';
+        puzzleContainer.appendChild(draggingPuzzle.img);
+      }
+
+      draggingPuzzle = null;
+      redrawCanvas();
+
+      if (checkPuzzleCompletion(puzzles, cols, rows, cellWidth, cellHeight)) {
+        showNotification('Puzzle ułożone prawidłowo');
+      }
+    });
+
+    // Funkcja do przemalowania canvasu
+    function redrawCanvas() {
+      drawGrid('window2');
+      for (let puzzle of puzzles) {
+        if (puzzle.onCanvas) {
+          const img = new Image();
+          img.onload = () => {
+            ctx.drawImage(img, puzzle.x, puzzle.y, cellWidth, cellHeight);
+          };
+          img.src = puzzle.imgData;
+        }
+      }
+    }
+  });
 }
+
+function checkPuzzleCompletion(puzzles, cols, rows, cellWidth, cellHeight) {
+  let allCorrect = true;
+
+  for (let puzzle of puzzles) {
+    if (!puzzle.onCanvas) {
+      allCorrect = false;
+      break;
+    }
+
+    // Pobierz indeks puzzle (np. "1-2")
+    const [correctI, correctJ] = puzzle.index.split('-').map(Number);
+
+    // Oblicz, w której komórce grida jest umieszczone
+    const currentCol = Math.round(puzzle.x / cellWidth);
+    const currentRow = Math.round(puzzle.y / cellHeight);
+
+    // Sprawdź czy jest na poprawnym miejscu
+    if (currentCol !== correctI || currentRow !== correctJ) {
+      allCorrect = false;
+      break;
+    }
+  }
+
+  return allCorrect;
+}
+
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 20px 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-in-out;
+  `;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  // Usuń notyfikację po 3 sekundach
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease-in-out';
+    setTimeout(() => notification.remove(), 300);
+  }, 3000);
+}
+
 
