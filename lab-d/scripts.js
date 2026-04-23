@@ -24,18 +24,21 @@ function displayForecast(data) {
   data.list.forEach(item => {
     const date = new Date(item.dt * 1000).toLocaleDateString('pl-PL');
     const time = new Date(item.dt * 1000).toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
-    const temp = item.main.temp;
+    const temp = Math.round(item.main.temp);
     const description = item.weather[0].description;
+    const icon = item.weather[0].icon;
+
 
     const forecastDiv = document.createElement('div');
     forecastDiv.className = 'forecast-item';
     forecastDiv.innerHTML = `
-         <strong>${date}</strong><br>
-         ${time}<br>
-         ${temp}°C<br>
-         ${description}
+          <strong>${date}</strong><br>
+  ${time}<br>
+  <div style="display: flex; align-items: center;">
+      <div>${temp}°C<br>${description}</div>
+    <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}" style="width: 50px; height: 50px; margin-right: 10px;">
+  </div>
        `;
-
     outputSection.appendChild(forecastDiv);
   });
 }
