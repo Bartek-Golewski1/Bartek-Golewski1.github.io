@@ -1,0 +1,42 @@
+body {
+  background-color: #e6f1fc;
+}
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.forecast-item {
+  background-color: #0bc2ff;
+  border: 6px double #000;
+  width: 200px;
+  height: 100px;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+}
+
+.output-section {
+  background-color: transparent;
+  border: none;
+  width: auto;
+  height: auto;
+  margin: 20px auto;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Calibri,sans-serif;
+}
+
+h1{
+  font-family: 'Calibri', sans-serif;
+}
