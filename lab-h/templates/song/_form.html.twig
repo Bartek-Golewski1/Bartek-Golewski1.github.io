@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+<div class="mb-3">
+    {{ form_row(form.Name) }}
+</div>
+<div class="mb-3">
+    {{ form_row(form.Artist) }}
+</div>
+<div class="mb-3">
+    {{ form_row(form.Rewiew) }}
+</div>
+<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
