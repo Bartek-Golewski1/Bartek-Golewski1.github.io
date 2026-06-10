@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Song Review</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <h1>Edit Song Review</h1>
+  <form action="/songs/<%= song.id %>/edit" method="POST">
+    <p>
+      <label>Title</label><br>
+      <input type="text" name="title" value="<%= song.title %>" required style="width: 300px;">
+    </p>
+    <p>
+      <label>Artist</label><br>
+      <input type="text" name="artist" value="<%= song.artist %>" required style="width: 300px;">
+    </p>
+    <p>
+      <label>Review</label><br>
+      <textarea name="review" rows="6" style="width: 300px;"><%= song.review %></textarea>
+    </p>
+    <button type="submit">Submit</button>
+  </form>
+
+  <hr>
+  <form action="/songs/<%= song.id %>/delete" method="POST" onsubmit="return confirm('Portwierdź usunięcie');">
+    <button type="submit" style="background-color: red; color: white;">Delete</button>
+  </form>
+  <br>
+  <a href="/songs">Back to list</a>
+</body>
+</html>
