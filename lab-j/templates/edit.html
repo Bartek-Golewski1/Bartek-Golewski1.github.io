@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h2 style="margin-bottom: 1.5rem;">Edycja: {{ song.title }}</h2>
+    <form method="POST">
+        <label for="title">Tytuł utworu:</label>
+        <input type="text" id="title" name="title" value="{{ song.title }}" required>
+
+        <label for="artist">Wykonawca:</label>
+        <input type="text" id="artist" name="artist" value="{{ song.artist }}" required>
+
+        <label for="opinion">Opinia </label>
+        <textarea id="opinion" name="opinion" rows="5" required>{{ song.opinion }}</textarea>
+
+        <button type="submit" class="btn btn-submit">Zapisz zmiany</button>
+    </form>
+{% endblock %}

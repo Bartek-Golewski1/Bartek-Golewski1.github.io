@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h2 style="margin-bottom: 1.5rem;">Twoje utwory</h2>
+
+    {% for song in songs %}
+        <div class="card">
+            <div class="song-title">{{ song.title }}</div>
+            <div class="song-artist">Wyk. {{ song.artist }}</div>
+
+            <div class="actions">
+                <a href="{{ url_for('show', id=song.id) }}" class="btn">Szczegóły</a>
+                <a href="{{ url_for('edit', id=song.id) }}" class="btn btn-edit">Edytuj</a>
+                <form action="{{ url_for('delete', id=song.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-delete" onclick="return confirm('Czy na pewno chcesz usunąć ten utwór?');">Usuń</button>
+                </form>
+            </div>
+        </div>
+    {% else %}
+        <div class="card" style="text-align: center; color: #7f8c8d;">
+            <p>Brak utworów w bazie. Dodaj swoją pierwszą piosenkę!</p>
+        </div>
+    {% endfor %}
+{% endblock %}
