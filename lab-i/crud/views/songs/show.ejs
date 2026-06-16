@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title><%= song.title %></title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <h1> Szczegóły recenzji</h1>
+
+  <div style="width: 100%; max-width: 600px;">
+    <h2><%= song.title %></h2>
+    <h3> wykonawca: <%= song.artist %></h3>
+
+    <div class="review-content">
+      <p><%= song.review ? song.review : 'Brak recenzji dla tego utworu.' %></p>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;">
+
+    <p>
+      <a href="/songs"> Back to list</a> |
+      <a href="/songs/<%= song.id %>/edit"> Edit</a>
+    </p>
+  </div>
+</body>
+</html>

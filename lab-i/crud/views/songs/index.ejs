@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Song Reviews</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+  <h1>Song Reviews</h1>
+  <p><a href="/songs/create">Create new</a></p>
+
+  <% if (songs.length === 0) { %>
+    <p>Brak recenzji w bazie.</p>
+  <% } else { %>
+    <ul>
+      <% songs.forEach(function(song) { %>
+        <li style="margin-bottom: 15px;">
+          <h3><%= song.title %> – <%= song.artist %></h3>
+          <a href="/songs/<%= song.id %>">Details</a> |
+          <a href="/songs/<%= song.id %>/edit">Edit</a>
+        </li>
+      <% }); %>
+    </ul>
+  <% } %>
+</body>
+</html>
