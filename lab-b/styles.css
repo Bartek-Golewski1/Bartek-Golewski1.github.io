@@ -72,11 +72,22 @@ body {
   border: none;
   font-size: 16px;
   width: 120px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px 0;
 }
 
 .item-text:focus {
   outline: none;
   border-bottom: 1px solid #00ff00;
+}
+
+mark {
+  background-color: #00ff00;
+  color: #004d99;
+  border-radius: 2px;
 }
 
 .item-date {

@@ -32,7 +32,8 @@ class Todo {
       const przefiltrowaneZadania = this.tasks.filter(task =>
         task.text.toLowerCase().includes(wpisanyTekst)
       );
-      this.draw(przefiltrowaneZadania);
+
+      this.draw(przefiltrowaneZadania, wpisanyTekst);
     });
 
     this.addButton.addEventListener('click', () => {
@@ -42,7 +43,6 @@ class Todo {
     this.listContainer.addEventListener('click', (e) => {
       const itemDiv = e.target.closest('.list-item');
       if (!itemDiv) return;
-
       const id = Number(itemDiv.dataset.id);
 
       if (e.target.classList.contains('item-delete')) {
@@ -52,15 +52,18 @@ class Todo {
       }
     });
 
-    this.listContainer.addEventListener('change', (e) => {
-      const itemDiv = e.target.closest('.list-item');
-      if (!itemDiv) return;
-      const id = Number(itemDiv.dataset.id);
-
+    this.listContainer.addEventListener('focusout', (e) => {
       if (e.target.classList.contains('item-text')) {
-        this.editTask(id, e.target.value);
+        const itemDiv = e.target.closest('.list-item');
+        const id = Number(itemDiv.dataset.id);
+        this.editTask(id, e.target.innerText);
       }
-      else if (e.target.classList.contains('item-date')) {
+    });
+
+    this.listContainer.addEventListener('change', (e) => {
+      if (e.target.classList.contains('item-date')) {
+        const itemDiv = e.target.closest('.list-item');
+        const id = Number(itemDiv.dataset.id);
         this.editDate(id, e.target.value);
       }
     });
@@ -68,18 +71,10 @@ class Todo {
 
   addTask(text, date) {
     if (text.trim() === '') return;
-
-    const newTask = {
-      id: Date.now(),
-      text: text,
-      date: date,
-      completed: false
-    };
-
+    const newTask = { id: Date.now(), text: text, date: date, completed: false };
     this.tasks.push(newTask);
     this.addTextInput.value = '';
     this.searchInput.value = '';
-
     this.saveData();
     this.draw();
   }
@@ -95,7 +90,7 @@ class Todo {
     if (task) {
       task.completed = !task.completed;
       this.saveData();
-      this.draw();
+      this.searchInput.dispatchEvent(new Event('input'));
     }
   }
 
@@ -104,19 +99,20 @@ class Todo {
     if (task) {
       task.text = newText;
       this.saveData();
-      this.draw();
+      this.searchInput.dispatchEvent(new Event('input'));
     }
   }
+
   editDate(id, newDate) {
     const task = this.tasks.find(t => t.id === id);
     if (task) {
       task.date = newDate;
       this.saveData();
-      this.draw();
+      this.searchInput.dispatchEvent(new Event('input'));
     }
   }
 
-  draw(tasksToDraw = this.tasks) {
+  draw(tasksToDraw = this.tasks, searchString = '') {
     this.listContainer.innerHTML = '';
 
     tasksToDraw.forEach(task => {
@@ -126,10 +122,16 @@ class Todo {
 
       const isChecked = task.completed ? 'checked' : '';
 
+      let displayHtml = task.text;
+      if (searchString !== '') {
+        const regex = new RegExp(`(${searchString})`, 'gi');
+        displayHtml = displayHtml.replace(regex, '<mark>$1</mark>');
+      }
+
       itemDiv.innerHTML = `
                 <div class="left-section">
                     <input type="checkbox" class="item-checkbox" ${isChecked}>
-                    <input type="text" class="item-text" value="${task.text}">
+                    <span contenteditable="true" class="item-text">${displayHtml}</span>
                 </div>
                 <input type="date" class="item-date" value="${task.date}">
                 <button class="item-delete">X</button>
